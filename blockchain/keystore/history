@@ -1,0 +1,7 @@
+eth.getBalance(eth.coinbase).toNumber();
+eth.getBalance(eth.coinbase).toNumber()
+eth.getBalance(eth.coinbase)
+eth.getBalance(eth.coinbase).toNumber()
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[0]);
+eth.getBalance(eth.accounts[0])

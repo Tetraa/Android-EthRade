@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Eth\'rade</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="wallet">Wallet</string>
+    <string name="contact">Contact</string>
+    <string name="settings">Settings</string>
+
+
+    <string name="address">Address:</string>
+    <string name="balance">Balance:</string>
+    <string name="value">Value in eth</string>
+    <string name="friend">Send to Friend</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="scan">Scan</string>
+    <string name="generate">Generate</string>
+    <string name="send_ether">Send Ether</string>
+    <string name="cancel">Cancel</string>
+    <string name="create_wallet">Create Wallet</string>
+    <string name="import_wallet">Import Wallet</string>
+    <string name="histo">History: To allows us to display you\'re transactions history</string>
+    <string name="anonymous">Anonymous: To appear on the search bar of other user</string>
+</resources>

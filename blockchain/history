@@ -1,0 +1,164 @@
+web3.fromWei(eth.getBalance(eth.accounts[0]), “ether”)
+web3.fromWei(eth.getBalance(eth.accounts[0]), "ether")
+miner.start()
+web3.fromWei(eth.getBalance(eth.accounts[0]), "ether")
+ls
+geth account list
+eth.accounts
+primary = eth.accounts[0]
+balance = web3.fromWei(eth.getBalance(primary), "ether")
+eth.accounts
+balance = web3.fromWei(eth.getBalance(primary), "ether")
+primary = eth.accounts[0]
+balance = web3.fromWei(eth.getBalance(primary), "ether")
+primary = eth.accounts[0]
+balance = web3.fromWei(eth.getBalance(primary), "ether")
+help
+eth.accounts
+miner.start()
+eth.accounts
+primary = eth.accounts[0]
+balance = web3.fromWei(eth.getBalance(primary), "ether")
+primary = eth.accounts[1]
+balance = web3.fromWei(eth.getBalance(primary), "ether")
+ls
+eth.accounts
+primary = eth.accounts[1]
+balance = web3.fromWei(eth.getBalance(primary), "ether")
+primary = eth.accounts[0]
+balance = web3.fromWei(eth.getBalance(primary), "ether")
+primary = eth.accounts[0]
+balance = web3.fromWei(eth.getBalance(primary), "ether")
+balance = web3.fromWei(eth.getBalance(eth.accounts[0]), "ether")
+balance = web3.fromWei(eth.getBalance(eth.accounts[1]), "ether")
+balance = eth.accounts[0]
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+miner.start(8)
+stop
+mining.stop
+mining.stop()
+mine.stop()
+miner.stop()
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+geth --etherbase 1
+miner.start(8)
+mine.stop()
+miner.stop()
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+geth -G --etherbase value 1
+geth -G --etherbase value 0
+miner.setEtherbase(eth.accounts[1])
+miner.start(8)
+miner.stop()
+miner.setEtherbase(eth.accounts[1])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+miner.setEtherbase(eth.accounts[0])
+miner.start(8)
+miner.stop
+miner.stop()
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+miner.setEtherbase(eth.accounts[0])
+miner.start(8)
+miner.stop()
+eth.getBalance(eth.accounts[0])
+miner.setEtherbase(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+jeth.send()
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+miner.setEtherbase(eth.accounts[0])
+miner.start(8)
+miner.stop()
+miner.setEtherbase(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+stop
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+miner.setEtherbase(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+miner.setEtherbase(eth.accounts[0])
+miner.start(8)
+miner.stop()
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.coinbase)
+eth.getMining()
+eth.getMining(eth.coinbase)
+eth.getGasPrice
+eth.getGasPrice()
+test  =eth.getGasPrice()
+test
+web3.
+miner.setEtherbase(eth.accounts[0])
+miner.start(8)
+miner.stop()
+miner.setEtherbase(eth.accounts[1])
+miner.start(8)
+miner.stop
+miner.stop()
+eth.getBalance(eth.accounts[0])
+eth.getBalance(eth.accounts[1])
+stop
+quit
+eth.getBalance(eth.accounts[1])
+eth.getBalance(eth.accounts[0])
+miner.setEtherbase(0624efbd01724738b07a7422d01893fb03618951)
+miner.setEtherbase("0624efbd01724738b07a7422d01893fb03618951")
+miner.start(8)
+miner.stop()
+miner.setEtherbase("5fbf60d8b779a56a9f8f60d9db1ef567efba754c")
+miner.start(8)
+miner.stop()
+eth.getBalance("5fbf60d8b779a56a9f8f60d9db1ef567efba754c")
+eth.getBalance("0624efbd01724738b07a7422d01893fb03618951")
+eth.getBalance("5fbf60d8b779a56a9f8f60d9db1ef567efba754c")
+eth.getBalance("0624efbd01724738b07a7422d01893fb03618951")
+ls
+eth.getBalance("0624efbd01724738b07a7422d01893fb03618951")
+miner.setEtherbase("0624efbd01724738b07a7422d01893fb03618951")
+miner.start(8)
+eth.getBalance("0624efbd01724738b07a7422d01893fb03618951")
+eth.getBalance("5fbf60d8b779a56a9f8f60d9db1ef567efba754c")
+eth.getBalance("0624efbd01724738b07a7422d01893fb03618951")
+eth.getBalance("5fbf60d8b779a56a9f8f60d9db1ef567efba754c")
+eixt
+miner.start(8)
+miner.stop()
+eth.getBalance("0624efbd01724738b07a7422d01893fb03618951")
+eth.getBalance("5fbf60d8b779a56a9f8f60d9db1ef567efba754c")
+miner.setEtherbase("5fbf60d8b779a56a9f8f60d9db1ef567efba754c")
+miner.start(8)
+sl
+miner.stop()
+miner.setEtherbase("5fbf60d8b779a56a9f8f60d9db1ef567efba754c")
+eth.getBalance("0624efbd01724738b07a7422d01893fb03618951")
+eth.getBalance("5fbf60d8b779a56a9f8f60d9db1ef567efba754c")
+eth.getBalance("0624efbd01724738b07a7422d01893fb03618951")
+eth.getBalance("5fbf60d8b779a56a9f8f60d9db1ef567efba754c")
+eth.getBalance("0624efbd01724738b07a7422d01893fb03618951")
+gcc
