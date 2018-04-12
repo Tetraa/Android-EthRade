@@ -2,7 +2,10 @@ package com.example.aureliengiudici.ethrade;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,14 +17,18 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
-import android.content.SharedPreferences;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.aureliengiudici.ethrade.BarCodeManager.QRCodeActivity;
@@ -44,8 +51,6 @@ import java.math.BigInteger;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private ConfigurationManager configurationManager;
-
-    private SharedPreferences pref;
     private Context context;
 
     private static final int READ_REQUEST_CODE = 42;
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private String balance;
     private String sendAddress;
 
+    private EditText password;
     private final int LOGIN = 0;
     private final int CONTACT = 1;
     private final int SEND = 2;
@@ -72,18 +78,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        pref = getPreferences(0);
         context = getApplicationContext();
         sendAddress = null;
         configurationManager = new ConfigurationManager(context);
-        //init fragment for the classic way to move
         this.initViews();
+        Dialog passwordDialog = this.onCreateDialogPassword();
+        passwordDialog.show();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+        for(int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+                SpannableString spanString = new SpannableString(menu.getItem(i).getTitle().toString());
+                int end = spanString.length();
+                spanString.setSpan(new RelativeSizeSpan(0.2f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                item.setTitle(spanString);
+        }
         return false;
     }
 
@@ -119,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
         createWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 changeView();
                 createWalletFile();
             }
@@ -135,12 +147,34 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+        public Dialog onCreateDialogPassword() {
+            LayoutInflater inflater = this.getLayoutInflater();
+            View view = inflater.inflate(R.layout.dialog_password, null);
+            password = (EditText)view.findViewById(R.id.dl_password);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(view)
+                    .setMessage("Please enter your password to create or open you wallet !")
+                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            if (password.getText().toString().equals("")) return;
+                            configurationManager.putString("password", password.getText().toString());
+                            Log.d("Password", configurationManager.getString("password"));
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            return builder.create();
+        }
+
     private void changeView() {
-        // remove your listview
         View layout = findViewById(R.id.activity_main);
         ViewGroup parent = (ViewGroup) layout.getParent();
         parent.removeView(layout);
-// inflate your profile view (or get the reference to it if it's already inflated)
         View yourProfileView = getLayoutInflater().inflate(R.layout.fragment_basic, parent, false);
         parent.addView(yourProfileView);
     }
@@ -151,10 +185,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void createWalletFile() {
         this.config = new WalletConfiguration(context);
-        configurationManager.putString("password", "ertERT117711");
-        config.start("ertERT117711");
+        if (!config.start(configurationManager.getString("password")))
+            this.retryDialog();
         this.reloadWalletParam(config);
         this.initWalletFragment();
+    }
+
+    void retryDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Please retry to put the good password !")
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        recreate();
+                    }
+                });
+        // Create the AlertDialog object and return it
+        AlertDialog dialog =  builder.create();
+        dialog.show();
     }
 
     private void openWalletFile(String path) {
@@ -163,10 +210,11 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, file.getName());
         if (checkPerms()) {
             WalletConfiguration config = new WalletConfiguration(context);
-            //mdp ertERT117711 or 1234
             configurationManager.putString("file", file.toString());
-            configurationManager.putString("password", "ertERT117711");
-            config.start("ertERT117711", file);
+            if (!config.start(this.configurationManager.getString("password"), file)) {
+                this.retryDialog();
+                return;
+            }
             this.reloadWalletParam(config);
             this.initWalletFragment();
         }
@@ -175,10 +223,10 @@ public class MainActivity extends AppCompatActivity {
     private void reloadWalletParam(WalletConfiguration config) {
         address = config.getAddress();
         configurationManager.putString("address", address);
-        configurationManager.putString("password", "ertERT117711");
         Log.d("Password", configurationManager.getString("password"));
-        Log.d("Address", address);
+        Log.d("Address", configurationManager.getString("address"));
         balance = config.getBalance(address).toString();
+        configurationManager.putString("balance", balance);
     }
 
     public String getBalance() {
@@ -198,11 +246,14 @@ public class MainActivity extends AppCompatActivity {
                 if (configurationManager == null) {
                     configurationManager = new ConfigurationManager(getContext());
                 }
+                _sendAddress = configurationManager.getString("sendAddress");
                 address = configurationManager.getString("address");
                 Log.d("File", configurationManager.getString("file"));
                 String pass = configurationManager.getString("password");
                 //config.getWallet(pass, new File(configurationManager.getString("file")));
-            return config.sendEther(_sendAddress, address, BigInteger.valueOf(value), pass);
+             if (!config.sendEther(_sendAddress, address, BigInteger.valueOf(value), pass)) return false;
+             balance = this.config.getBalance(address).toString();
+             return true;
         } catch (Exception e) {
             Log.d(TAG, "Send eth error");
         }
@@ -307,10 +358,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-
-        // The ACTION_OPEN_DOCUMENT intent was sent with the request code
-        // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
-        // response to some other intent, and the code below shouldn't run at all.
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, resultData);
         if (scanningResult != null) {
             String scanContent = scanningResult.getContents();
@@ -318,6 +365,7 @@ public class MainActivity extends AppCompatActivity {
                     "Scan data Receive:" + scanContent, Toast.LENGTH_SHORT);
             toast.show();
             sendAddress = scanContent;
+            configurationManager.putString("sendAddress", sendAddress);
         }else{
             Toast toast = Toast.makeText(getContext(),
                     "No scan data received!", Toast.LENGTH_SHORT);
@@ -332,7 +380,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "Uri: " + uri.getPath());
                 this.walletFilePath = uri.getPath();
                 this.openWalletFile(uri.getPath());
-                //config.start("ertERT117711", file.getPath());
             }
         }
     }

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.aureliengiudici.ethrade.BarCodeManager.QRCodeActivity;
+import com.example.aureliengiudici.ethrade.Configuration.ConfigurationManager;
 import com.example.aureliengiudici.ethrade.Contracts.WalletConfiguration;
 import com.example.aureliengiudici.ethrade.MainActivity;
 import com.example.aureliengiudici.ethrade.R;
@@ -40,6 +41,7 @@ public class SendEthFragment extends Fragment {
     private Button   btSend;
     private Button   btCancel;
     private Button  scan;
+    private ConfigurationManager configurationManager;
 
 
     public SendEthFragment() {
@@ -50,13 +52,13 @@ public class SendEthFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        configurationManager = new ConfigurationManager(getContext());
         address = null;
         value = null;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Do something that differs the Activity's menu here
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -68,6 +70,7 @@ public class SendEthFragment extends Fragment {
         btSend = (Button) view.findViewById(R.id.btn_send_eth);
         btCancel = (Button) view.findViewById(R.id.btn_cancel);
         scan = (Button) view.findViewById(R.id.scan_button);
+
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +87,7 @@ public class SendEthFragment extends Fragment {
 
                     MainActivity activity = (MainActivity) getActivity();
                     Log.d(TAG, Long.valueOf(value) + " WERid");
-                    if (activity.sendEth("0x0e17389b54881e39a210de71f5b33f4a1afe9cef", Long.valueOf(value))) {
+                    if (activity.sendEth(address, Long.valueOf(value))) {
                         displayAlert("Success", "Ether are well send");
                     } else {
                         displayAlert("Error", "Transaction Error");
@@ -106,27 +109,16 @@ public class SendEthFragment extends Fragment {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
+                IntentIntegrator scanIntegrator =  IntentIntegrator.forSupportFragment(SendEthFragment.this);
                 scanIntegrator.initiateScan();
+                address = configurationManager.getString("sendAddress");
+                etAddress.setText(address);
             }
         });
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanningResult != null) {
-            String scanContent = scanningResult.getContents();
-            address = scanContent;
-            Log.d(TAG, "Voici le scan :" + scanContent);
-        }else{
-            Toast toast = Toast.makeText(getContext(),
-                    "No scan data received!", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
 
-
-    private AlertDialog displayAlert(String title, String str) {
+    private void displayAlert(String title, String str) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(str);
@@ -137,7 +129,6 @@ public class SendEthFragment extends Fragment {
                     }
                 });
         alertDialog.show();
-        return alertDialog;
     }
 
     @Override
@@ -147,6 +138,22 @@ public class SendEthFragment extends Fragment {
         View view = inflater.inflate(R.layout.dialog_send, container, false);
         this.InitView(view);
         return view;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, resultData);
+        if (scanningResult != null) {
+            String scanContent = scanningResult.getContents();
+            Toast toast = Toast.makeText(getContext(),
+                    "Scan data Receive:" + scanContent, Toast.LENGTH_SHORT);
+            toast.show();
+            address = scanContent;
+            configurationManager.putString("sendAddress", address);
+        } else {
+            Toast toast = Toast.makeText(getContext(),
+                    "No scan data received!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 }
 

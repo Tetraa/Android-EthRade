@@ -70,9 +70,9 @@ public class HistoryAdapter extends ArrayAdapter<HistoryModel> {
         result.startAnimation(animation);
         lastPosition = position;
 
-        viewHolder.txtDate.setText(historyModel.getDate());
-        viewHolder.txtAddress.setText(historyModel.getAddress());
-        viewHolder.txtHisto.setText(historyModel.toString());
+        //viewHolder.txtDate.setText(historyModel.getDate());
+        //viewHolder.txtAddress.setText(historyModel.getAddress());
+        //viewHolder.txtHisto.setText(historyModel.toString());
         // Return the completed view to render on screen
         return convertView;
     }

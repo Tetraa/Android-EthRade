@@ -68,24 +68,24 @@ public class WalletConfiguration implements Serializable {
 
 
 
-    public void start(String password, File dir){
+    public Boolean start(String password, File dir){
         try {
             this.password = password;
-            if (!this.getWallet(password, dir)) {
-                this.createWallet();
+            if (dir == null) {
+                return this.createWallet();
             }
+            if (!this.getWallet(password, dir)) {
+                return this.createWallet();
+            }
+            return true;
         } catch (Exception e) {
             Log.e(TAG, e.toString());
+            return false;
         }
     }
 
-    public void start(String password){
-        try {
-            this.password = password;
-            this.createWallet();
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
+    public Boolean start(String password){
+       return start(password, null);
     }
 
 
@@ -97,7 +97,7 @@ public class WalletConfiguration implements Serializable {
             isConnect = true;
             Log.i("Connected:",  "to Ethereum client version:" + clientVersion);
     }
-    private void createWallet() throws Exception {
+    private Boolean createWallet() throws Exception {
         try {
             ECKeyPair ecKeyPair = Keys.createEcKeyPair();
             myWallet = Credentials.create(ecKeyPair);
@@ -108,12 +108,14 @@ public class WalletConfiguration implements Serializable {
             System.out.println("keystore json file " + jsonStr);
             address = myWallet.getAddress();
             writeFile(jsonStr);
+            return true;
         } catch (Exception e) {
             Log.e(TAG, e.toString());
+            return false;
         }
     }
 
-    public void writeFile(String json) {
+    private void writeFile(String json) {
         File file = new File(Environment.getExternalStorageDirectory().toString() + "/Download");
         if(!file.exists()){
             file.mkdir();
@@ -132,7 +134,7 @@ public class WalletConfiguration implements Serializable {
         }
     }
 
-    public Boolean getWallet(String password, File dir) throws Exception {
+    private Boolean getWallet(String password, File dir) throws Exception {
         this.myWallet = WalletUtils.loadCredentials(password, dir);
         this.address = this.myWallet.getAddress();
         Log.d(TAG, this.address);
@@ -163,16 +165,8 @@ public class WalletConfiguration implements Serializable {
         return address;
     }
 
-    public Boolean isConnect() {
+    private Boolean isConnect() {
         return isConnect;
-    }
-
-
-    private boolean unlockAccount(String coinbaseAccountAddress, String coinbaseAccountPassword) throws Exception {
-        PersonalUnlockAccount personalUnlockAccount =
-                web3j.personalUnlockAccount(coinbaseAccountAddress, coinbaseAccountPassword, ACCOUNT_UNLOCK_DURATION).sendAsync().get();
-
-        return personalUnlockAccount.accountUnlocked();
     }
 
     public Boolean sendEther(String addressToSend, String _address, BigInteger value, String _password) throws InterruptedException, ExecutionException, IOException, CipherException {

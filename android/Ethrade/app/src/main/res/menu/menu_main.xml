@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:itemTextAppearance="@style/StyleMenu">
 
     <item
         android:id="@+id/wallet_menu"
         app:showAsAction="always"
-        android:title="@string/wallet" />
+        android:title="@string/wallet"/>
 
     <item
         android:id="@+id/send_eth_menu"
         app:showAsAction="always"
-        android:title="@string/send_ether" />
+        android:title="@string/send_ether"/>
 
 
     <item
         android:id="@+id/contact_menu"
         app:showAsAction="always"
-        android:title="@string/contact" />
+        android:title="@string/contact"/>
 
     <item
         android:id="@+id/histo_menu"
         app:showAsAction="always"
-        android:title="@string/contact" />
+        android:title="@string/history"/>
 
 
     <item
         android:id="@+id/login_menu"
         app:showAsAction="always"
-        android:title="@string/login" />
+        android:title="@string/login"/>
 
     <item
         android:id="@+id/settings_menu"
         app:showAsAction="always"
-        android:title="@string/settings" />
-
+        android:title="@string/settings"/>
 </menu>

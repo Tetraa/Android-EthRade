@@ -3,16 +3,21 @@ package com.example.aureliengiudici.ethrade.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aureliengiudici.ethrade.BarCodeManager.BarcodeEncoder;
+import com.example.aureliengiudici.ethrade.Configuration.ConfigurationManager;
 import com.example.aureliengiudici.ethrade.Contracts.WalletConfiguration;
 import com.example.aureliengiudici.ethrade.MainActivity;
 import com.example.aureliengiudici.ethrade.R;
@@ -36,7 +41,7 @@ public class WalletFragment extends Fragment {
     private String balance;
     private TextView tvAdress;
     private TextView tvBalance;
-    private WalletConfiguration walletConfiguration;
+    private ConfigurationManager configurationManager;
 
 
     public WalletFragment() {
@@ -50,7 +55,7 @@ public class WalletFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         Bundle args = getArguments();
-
+        configurationManager = new ConfigurationManager(getContext());
         address =  args.getString("address");
         balance = args.getString("balance") + " eth";
         if (address == null) {
@@ -58,20 +63,8 @@ public class WalletFragment extends Fragment {
             address = activity.getAddress();
         }
             MainActivity activity = (MainActivity) getActivity();
-            balance = activity.getBalance();
+            balance = configurationManager.getString("balance");
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Do something that differs the Activity's menu here
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    public void setWalletConfiguration(WalletConfiguration walletConfiguration) {
-        this.walletConfiguration = walletConfiguration;
-    }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -6,6 +6,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionMenuTextAppearance">@style/StyleMenu</item>
     </style>
 
+    <style name="StyleMenu" parent="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Menu">
+        <item tools:override="true" name="android:textSize">12sp</item>
+        <item tools:override="true" name="android:layout_marginBottom">02dp</item>
+    </style>
 </resources>
